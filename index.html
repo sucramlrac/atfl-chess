@@ -71,6 +71,38 @@
             div.appendChild(table);
             document.body.append(div);
         }
+
+        // translate a string into the equivalent td element based on chess position notation
+        function findPosition(position) {
+            try {
+                if (position.length > 2) {
+                    throw new Error("Invalid position input string!");
+                    return 0;
+                }
+            } catch (error) {
+                console.error(`${error.name}: ${error.message}`);
+            }
+            const a = position.at(0).toLowerCase();
+            const n = position.at(1);
+            const letters = ["a","b","c","d","e","f","g","h"];
+            const x = letters.indexOf(a) + 1;
+            const y = n;
+
+            const chessboard = document.getElementById("chessboard").firstChild;
+            const pos = Array.from(chessboard.rows).map(row => Array.from(row.cells)); // create 2D array of the chessboard table element
+            pos.reverse();
+
+
+            return pos[y][x];
+            // pos[y][x].style.backgroundColor = "blue";
+            // console.log(chessboard);
+            // console.log(a);
+            // console.log(n);
+            // console.log(pos);
+        }
+        
+        createChessboard();
+        console.log(findPosition("d2"));
     </script>
 </body>
 </html>
