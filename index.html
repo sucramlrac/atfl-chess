@@ -6,13 +6,17 @@
     <title>Document</title>
     <style>
         table {
+            table-layout: fixed;
             border-collapse: collapse;
         }
         td {
             width: 50px;
             height: 50px;
+            padding: 0;
+            margin: 0;
+            line-height: 0px;
             border: solid 1px black;
-            text-align: center;
+            text-align: center;            
         }
 
         .no-border {
@@ -92,13 +96,41 @@
             const pos = Array.from(chessboard.rows).map(row => Array.from(row.cells)); // create 2D array of the chessboard table element
             pos.reverse();
 
-
+            const svgNS = "http://www.w3.org/2000/svg";
+            const svg = document.createElementNS(svgNS,"svg");
+            svg.setAttribute("width","100%");
+            svg.setAttribute("height","100%");
+            svg.setAttribute("xmlns","");
+            const circle = document.createElementNS(svgNS,"circle");
+            circle.setAttribute("cx","50%");
+            circle.setAttribute("cy","50%");
+            circle.setAttribute("r","45%");
+            circle.setAttribute("stroke","black");
+            circle.setAttribute("stroke-width","1");
+            circle.setAttribute("fill","none");
+            svg.appendChild(circle.cloneNode(true));
+            
+            pos[y][x].appendChild(svg.cloneNode(true));
             return pos[y][x];
             // pos[y][x].style.backgroundColor = "blue";
             // console.log(chessboard);
             // console.log(a);
             // console.log(n);
             // console.log(pos);
+        }
+
+        function addPiece(piece) {
+            if (piece == "pawn") {
+                console.log("im a pawn");
+            }
+            else if (piece == "queen") {
+                
+                console.log("im a queen");
+            }
+            else {
+                console.log("im neither");
+                return;
+            }
         }
         
         createChessboard();
