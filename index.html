@@ -108,7 +108,14 @@
             circle.setAttribute("stroke","black");
             circle.setAttribute("stroke-width","1");
             circle.setAttribute("fill","none");
+            const text = document.createElementNS(svgNS,"text");
+            text.setAttribute("x","50%");
+            text.setAttribute("y","50%");
+            text.setAttribute("text-anchor","middle");
+            text.setAttribute("dominant-baseline","middle");
+            text.innerHTML = a+n;
             svg.appendChild(circle.cloneNode(true));
+            svg.appendChild(text.cloneNode(true));
             
             pos[y][x].appendChild(svg.cloneNode(true));
             return pos[y][x];
