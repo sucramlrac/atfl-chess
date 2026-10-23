@@ -118,6 +118,7 @@
             svg.appendChild(text.cloneNode(true));
             
             pos[y][x].appendChild(svg.cloneNode(true));
+            console.log(pos[y][x].getBoundingClientRect());
             return pos[y][x];
             // pos[y][x].style.backgroundColor = "blue";
             // console.log(chessboard);
@@ -126,9 +127,9 @@
             // console.log(pos);
         }
 
-        function addPiece(piece) {
+        function addPiece(piece,startPosition) {
             if (piece == "pawn") {
-                console.log("im a pawn");
+                
             }
             else if (piece == "queen") {
                 
@@ -139,9 +140,35 @@
                 return;
             }
         }
+
+        function arrowFromTo(from, to) {
+            /*
+            The idea here is:
+            1. Retrieve the x and y position of 'from' state
+            2. Retrieve the x and y position of 'to' state
+            3. Draw a SVG Bezier Curve and the the parameters of 'from' and 'to' state
+            4. Place the SVG layered on top of the board i.e. on a separate z-axis
+            */
+
+            // https://stackoverflow.com/questions/442404/retrieve-the-position-x-y-of-an-html-element
+            
+            // Drawing the arrow
+            const svgNS = "http://www.w3.org/2000/svg";
+            const svg = document.createElementNS(svgNS,"svg");
+            const path = document.createElementNS(svgNS,"path");
+            path.setAttribute("d","M 10 10 C 20 20, 40 20, 50 10 c -3 10, 0 0, 0 0 c -10 0, 0 0, 0 0");
+            path.setAttribute("stroke","black");
+            path.setAttribute("stroke-width","1");
+            path.setAttribute("fill","none");
+            svg.appendChild(path.cloneNode(true));
+            document.body.appendChild(svg.cloneNode(true));
+        }
         
         createChessboard();
         console.log(findPosition("d2"));
+        console.log(findPosition("d3"));
+        arrowFromTo(1, 2);
+
     </script>
 </body>
 </html>
