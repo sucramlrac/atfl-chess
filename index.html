@@ -160,17 +160,35 @@
             const svgNS = "http://www.w3.org/2000/svg";
             const svg = document.createElementNS(svgNS,"svg");
             const path = document.createElementNS(svgNS,"path");
-            path.setAttribute("d","M 10 10 C 20 20, 40 20, 50 10 c -3 10, 0 0, 0 0 c -10 0, 0 0, 0 0");
+            const chessboard = document.getElementById("chessboard");
+            const table = chessboard.firstElementChild;
+
+            // path.setAttribute("d","M 10 10 C 20 20, 40 20, 50 10 c -3 10, 0 0, 0 0 c -10 0, 0 0, 0 0");
+            path.setAttribute("d","M 205.33334350585938 332.3333435058594 c 0 0, -30 -25, 0 -52");
             path.setAttribute("stroke","black");
             path.setAttribute("stroke-width","1");
             path.setAttribute("fill","none");
+            path.classList.toggle("z-1");
+            
             svg.appendChild(path.cloneNode(true));
-            document.body.appendChild(svg.cloneNode(true));
+            path.setAttribute("d","M 205.33334350585938 332.3333435058594 c 0 0, -50 -45, 0 -102");
+            
+            svg.appendChild(path.cloneNode(true));
+            path.setAttribute("d","M 205.33334350585938 332.3333435058594 c 0 0, -70 -65, 0 -152");
+            
+            svg.appendChild(path.cloneNode(true));
+            svg.style.position = "relative";
+            svg.style.top = -chessboard.getBoundingClientRect().height;
+            svg.style.height = table.getBoundingClientRect().height;
+            svg.style.width = table.getBoundingClientRect().width;
+            chessboard.appendChild(svg.cloneNode(true));
         }
         
         createChessboard();
         console.log(findPosition("d2"));
         console.log(findPosition("d3"));
+        console.log(findPosition("d4"));
+        console.log(findPosition("d5"));
         arrowFromTo(1, 2);
 
     </script>
