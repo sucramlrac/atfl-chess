@@ -160,27 +160,59 @@
             const svgNS = "http://www.w3.org/2000/svg";
             const svg = document.createElementNS(svgNS,"svg");
             const path = document.createElementNS(svgNS,"path");
+            const defs = document.createElementNS(svgNS,"defs");
             const chessboard = document.getElementById("chessboard");
             const table = chessboard.firstElementChild;
 
+            // https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Element/marker
+            // Drawing th arrow head
+            const marker = document.createElementNS(svgNS,"marker");
+            const arrowHead = document.createElementNS(svgNS,"path");
+            marker.setAttribute("id","arrow");
+            marker.setAttribute("viewBox","0 0 10 10");
+            marker.setAttribute("refX","5");
+            marker.setAttribute("refY","5");
+            marker.setAttribute("markerWidth","6");
+            marker.setAttribute("markerHeight","6");
+            marker.setAttribute("orient","auto-start-reverse");
+            marker.setAttribute("fill","red");
+
+            arrowHead.setAttribute("d", "M 0 0 L 10 5 L 0 10 z");
+
+            marker.appendChild(arrowHead.cloneNode(true));
+            defs.appendChild(marker.cloneNode(true));
+
             // path.setAttribute("d","M 10 10 C 20 20, 40 20, 50 10 c -3 10, 0 0, 0 0 c -10 0, 0 0, 0 0");
             path.setAttribute("d","M 205.33334350585938 332.3333435058594 c 0 0, -30 -25, 0 -52");
-            path.setAttribute("stroke","black");
+            path.setAttribute("stroke","red");
             path.setAttribute("stroke-width","1");
             path.setAttribute("fill","none");
+            path.setAttribute("marker-end","url(#arrow)");
             path.classList.toggle("z-1");
             
             svg.appendChild(path.cloneNode(true));
+
             path.setAttribute("d","M 205.33334350585938 332.3333435058594 c 0 0, -50 -45, 0 -102");
-            
             svg.appendChild(path.cloneNode(true));
+
             path.setAttribute("d","M 205.33334350585938 332.3333435058594 c 0 0, -70 -65, 0 -152");
-            
             svg.appendChild(path.cloneNode(true));
+
+            path.setAttribute("d","M 205.33334350585938 332.3333435058594 c 0 0, -90 -65, 0 -202");
+            svg.appendChild(path.cloneNode(true));
+
+            path.setAttribute("d","M 205.33334350585938 332.3333435058594 c 0 0, -110 -65, 0 -252");
+            svg.appendChild(path.cloneNode(true));
+
+            path.setAttribute("d","M 205.33334350585938 332.3333435058594 c 0 0, -130 -65, 0 -302");
+            svg.appendChild(path.cloneNode(true));
+
             svg.style.position = "relative";
             svg.style.top = -chessboard.getBoundingClientRect().height;
             svg.style.height = table.getBoundingClientRect().height;
             svg.style.width = table.getBoundingClientRect().width;
+
+            svg.appendChild(defs.cloneNode(true));
             chessboard.appendChild(svg.cloneNode(true));
         }
         
@@ -189,6 +221,9 @@
         console.log(findPosition("d3"));
         console.log(findPosition("d4"));
         console.log(findPosition("d5"));
+        console.log(findPosition("d6"));
+        console.log(findPosition("d7"));
+        console.log(findPosition("d8"));
         arrowFromTo(1, 2);
 
     </script>
