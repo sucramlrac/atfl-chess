@@ -431,16 +431,25 @@
         pos.forEach((row, rowIndex) => {
             row.forEach((cell, cellIndex) => {
                 cell.addEventListener("mouseenter", () => {
+                    
                     const letters = ["a","b","c","d","e","f","g","h"];
                     const x = letters[cellIndex-1];
                     const y = rowIndex;
+                    if (rowIndex != 0 && cellIndex != 0){
+                        drawState(cell, x + y);
+                        findTransitions(x+y);
+                    }
                     
-                    drawState(cell, x + y);
-                    findTransitions(x+y);
                 });
                 cell.addEventListener("mouseleave", () => {
-                    clearChessboard();
-                    cell.innerHTML = "";
+                    pos.forEach((xrow, xrowIndex) => {
+                        xrow.forEach((xcell, xcellIndex) => {
+                            if (xrowIndex != 0 && xcellIndex != 0){
+                                xcell.innerHTML = "";
+                            }
+                        });
+                    });
+                    // cell.innerHTML = "";
                     cell.style.backgroundColor = "";
                 });
             });
