@@ -80,6 +80,16 @@
             document.body.append(div);
         }
 
+        function deleteChessboard() {
+            const chessboard = document.getElementById("chessboard");
+            chessboard.remove();
+        }
+
+        function resetChessboard() {
+            deleteChessboard();
+            createChessboard();
+        }
+
         // translate a string into the equivalent td element based on chess position notation
         function findPosition(position) {
 
