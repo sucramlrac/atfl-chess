@@ -82,6 +82,11 @@
 
         // translate a string into the equivalent td element based on chess position notation
         function findPosition(position) {
+
+            // to do: split the draw statements to drawState() and let findPosition() return only the table cell
+            // to do: make findTransitions() of queen
+
+
             try {
                 if (position.length > 2) {
                     throw new Error("Invalid position input string!");
@@ -100,6 +105,40 @@
             const pos = Array.from(chessboard.rows).map(row => Array.from(row.cells)); // create 2D array of the chessboard table element
             pos.reverse();
 
+            drawState(pos[y][x], position);
+
+            // const svgNS = "http://www.w3.org/2000/svg";
+            // const svg = document.createElementNS(svgNS,"svg");
+            // svg.setAttribute("width","100%");
+            // svg.setAttribute("height","100%");
+            // svg.setAttribute("xmlns","");
+            // const circle = document.createElementNS(svgNS,"circle");
+            // circle.setAttribute("cx","50%");
+            // circle.setAttribute("cy","50%");
+            // circle.setAttribute("r","45%");
+            // circle.setAttribute("stroke","black");
+            // circle.setAttribute("stroke-width","1");
+            // circle.setAttribute("fill","none");
+            // const text = document.createElementNS(svgNS,"text");
+            // text.setAttribute("x","50%");
+            // text.setAttribute("y","50%");
+            // text.setAttribute("text-anchor","middle");
+            // text.setAttribute("dominant-baseline","middle");
+            // text.innerHTML = a+n;
+            // svg.appendChild(circle.cloneNode(true));
+            // svg.appendChild(text.cloneNode(true));
+            
+            // pos[y][x].appendChild(svg.cloneNode(true));
+            console.log(pos[y][x].getBoundingClientRect());
+            return pos[y][x];
+            // pos[y][x].style.backgroundColor = "blue";
+            // console.log(chessboard);
+            // console.log(a);
+            // console.log(n);
+            // console.log(pos);
+        }
+
+        function drawState(pos, an) {
             const svgNS = "http://www.w3.org/2000/svg";
             const svg = document.createElementNS(svgNS,"svg");
             svg.setAttribute("width","100%");
@@ -117,20 +156,101 @@
             text.setAttribute("y","50%");
             text.setAttribute("text-anchor","middle");
             text.setAttribute("dominant-baseline","middle");
-            text.innerHTML = a+n;
+            text.innerHTML = an;
             svg.appendChild(circle.cloneNode(true));
             svg.appendChild(text.cloneNode(true));
             
-            pos[y][x].appendChild(svg.cloneNode(true));
-            console.log(pos[y][x].getBoundingClientRect());
-            return pos[y][x];
-            // pos[y][x].style.backgroundColor = "blue";
-            // console.log(chessboard);
-            // console.log(a);
-            // console.log(n);
-            // console.log(pos);
+            pos.appendChild(svg.cloneNode(true));
         }
 
+        function findTransitions(position) {
+            try {
+                if (position.length > 2) {
+                    throw new Error("Invalid position input string!");
+                    return 0;
+                }
+            } catch (error) {
+                console.error(`${error.name}: ${error.message}`);
+            }
+            const a = position.at(0).toLowerCase();
+            const n = position.at(1);
+            const letters = ["a","b","c","d","e","f","g","h"];
+            const x = letters.indexOf(a) + 1;
+            const y = n;
+
+            const chessboard = document.getElementById("chessboard").firstChild;
+            const pos = Array.from(chessboard.rows).map(row => Array.from(row.cells)); // create 2D array of the chessboard table element
+            pos.reverse();
+
+            //upwards
+            console.log("up")
+            for (let m = n; m < 9; m++) {
+                const name = letters[x-1] + m;
+                if (m == n) continue;
+                console.log(pos[m][x]); 
+                drawState(pos[m][x], name);
+            }
+            //downwards
+            console.log("down")
+            for (let m = n; m > 0; m--) {
+                const name = letters[x-1] + m;
+                if (m == n) continue;
+                console.log(pos[m][x]);
+                drawState(pos[m][x], name);
+            }
+            //leftwards
+            console.log("left")
+            for (let b = x; b > 0; b--) {
+                const name = letters[b-1] + y;
+                if (b == x) continue;
+                console.log(pos[y][b]);
+                drawState(pos[y][b], name);
+            }
+            //rightwards
+            console.log("right")
+            for (let b = x; b < 9; b++) {
+                const name = letters[b-1] + y;
+                if (b == x) continue;
+                console.log(pos[y][b]);
+                drawState(pos[y][b], name);
+            }
+            //ul
+            console.log("upleft")
+            for (let m = n, b = x; m < 9 && b > 0; m++, b--) {
+                const name = letters[b-1] + m;
+                if (m == n || b == x) continue;
+                console.log(pos[m][b]); 
+                drawState(pos[m][b], name);
+            }
+            //ur
+            console.log("upright")
+            for (let m = n, b = x; m < 9 && b < 9; m++, b++) {
+                const name = letters[b-1] + m;
+                if (m == n || b == x) continue;
+                console.log(pos[m][b]); 
+                drawState(pos[m][b], name);
+            }
+            //dl
+            console.log("downleft")
+            for (let m = n, b = x; m > 0 && b > 0; m--, b--) {
+                const name = letters[b-1] + m;
+                if (m == n || b == x) continue;
+                console.log(pos[m][b]);
+                drawState(pos[m][b], name);
+            }
+            //dr
+            console.log("downright")
+            for (let m = n, b = x; m > 0 && b < 9; m--, b++) {
+                const name = letters[b-1] + m;
+                if (m == n || b == x) continue;
+                console.log(pos[m][b]);
+                drawState(pos[m][b], name);
+            }
+        }
+        function createTransitions(position) {
+            const pos = findPosition(position);
+            
+        }
         function addPiece(piece,startPosition) {
             if (piece == "pawn") {
                 
@@ -153,6 +273,9 @@
             3. Draw a SVG Bezier Curve and the the parameters of 'from' and 'to' state
             4. Place the SVG layered on top of the board i.e. on a separate z-axis
             */
+
+            // to do: separate draw statements to drawArrow
+            // to do: arrowFromTo must only accept table cells returned by findPosition
 
             // https://stackoverflow.com/questions/442404/retrieve-the-position-x-y-of-an-html-element
             
@@ -217,15 +340,16 @@
         }
         
         createChessboard();
-        console.log(findPosition("d2"));
-        console.log(findPosition("d3"));
-        console.log(findPosition("d4"));
-        console.log(findPosition("d5"));
-        console.log(findPosition("d6"));
-        console.log(findPosition("d7"));
-        console.log(findPosition("d8"));
-        arrowFromTo(1, 2);
+        // console.log(findPosition("d2"));
+        // console.log(findPosition("d3"));
+        // console.log(findPosition("d4"));
+        // console.log(findPosition("d5"));
+        // console.log(findPosition("d6"));
+        // console.log(findPosition("d7"));
+        // console.log(findPosition("d8"));
+        // arrowFromTo(1, 2);
 
+        // findTransitions("d2");
     </script>
 </body>
 </html>
