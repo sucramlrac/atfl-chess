@@ -149,6 +149,8 @@
         }
 
         function drawState(pos, an) {
+            const array = Array.from(an);
+
             const svgNS = "http://www.w3.org/2000/svg";
             const svg = document.createElementNS(svgNS,"svg");
             svg.setAttribute("width","100%");
@@ -161,12 +163,21 @@
             circle.setAttribute("stroke","black");
             circle.setAttribute("stroke-width","1");
             circle.setAttribute("fill","none");
+            
             const text = document.createElementNS(svgNS,"text");
             text.setAttribute("x","50%");
             text.setAttribute("y","50%");
             text.setAttribute("text-anchor","middle");
             text.setAttribute("dominant-baseline","middle");
             text.innerHTML = an;
+
+            // for final states
+            if (array[1] == 8) {
+                const insideCircle = circle.cloneNode(true);
+                insideCircle.setAttribute("r","40%");
+                svg.appendChild(insideCircle.cloneNode(true));
+            }
+            
             svg.appendChild(circle.cloneNode(true));
             svg.appendChild(text.cloneNode(true));
             
