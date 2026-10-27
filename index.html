@@ -30,6 +30,28 @@
     </style>
 </head>
 <body>
+    <header>
+        <h1>The NFA Diagram of a Chess Queen</h1>
+    </header>
+    <aside>
+        <h2>Explanation</h2>
+        <p>The nondeterministic finite automaton Chess Queen, having only two characters in the alphabet which is 'move' and 'capture' whereas the possible states or 'positions' for both characters, or 'actions', is the same. Ofcourse, unless the transition is occupied by another piece, as stated by the rules of chess, the Queen always has the input move in this example.</p>
+        <h2>Tools Used</h2>
+        <ol>
+            <li>Google AI Overview (Gemini)
+                <p>I used Google's AI Overview for quick searching of unfamiliar syntax</p>
+            </li>
+            <li>W3Schools and MDN Web Docs
+                <p>Primary goto for syntax docs after Gemini</p>
+            </li>
+            <li>HTML, CSS, JavaScript
+                <p>Because it is browser dependent which everyone already has</p>
+            </li>
+            <li>Git and GitHub
+                <p>For version control and sharing</p>
+            </li>
+        </ol>
+    </aside>
     <script>
         // const bt = document.createElement("button");
         // bt.id = "addChessboard";
@@ -177,7 +199,7 @@
                 insideCircle.setAttribute("r","40%");
                 svg.appendChild(insideCircle.cloneNode(true));
             }
-            
+
             svg.appendChild(circle.cloneNode(true));
             svg.appendChild(text.cloneNode(true));
             
